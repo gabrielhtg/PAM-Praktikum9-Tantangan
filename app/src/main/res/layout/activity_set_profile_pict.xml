@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.SetProfilePictActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/tempat_profil"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/foto_profil"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/default_profile_pict"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <Button
+                    android:id="@+id/choose_profile_pict"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Choose"
+                    app:layout_constraintEnd_toEndOf="@+id/foto_profil"
+                    app:layout_constraintStart_toStartOf="@+id/foto_profil"
+                    app:layout_constraintTop_toBottomOf="@+id/foto_profil"
+                    tools:ignore="HardcodedText" />
+
+                <Button
+                    android:id="@+id/save_profile_pict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Save"
+                    app:layout_constraintEnd_toEndOf="@+id/choose_profile_pict"
+                    app:layout_constraintStart_toEndOf="@+id/choose_profile_pict"
+                    app:layout_constraintStart_toStartOf="@+id/choose_profile_pict"
+                    app:layout_constraintTop_toBottomOf="@+id/choose_profile_pict"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

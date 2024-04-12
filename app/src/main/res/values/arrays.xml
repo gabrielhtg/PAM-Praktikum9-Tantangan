@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="completed">
+        <item>Yes</item>
+        <item>No</item>
+    </array>
+    <array name="status">
+        <item>Lost</item>
+        <item>Found</item>
+    </array>
+</resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/tempat_profil"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:id="@+id/foto_profil"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/default_profile_pict"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ini Adalah Nama"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:id="@+id/nama_profil"
+                app:layout_constraintStart_toStartOf="@id/foto_profil"
+                app:layout_constraintEnd_toEndOf="@id/foto_profil"
+                app:layout_constraintTop_toBottomOf="@id/foto_profil"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/email_profil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Ini adalah email"
+                app:layout_constraintEnd_toEndOf="@id/nama_profil"
+                app:layout_constraintStart_toStartOf="@id/nama_profil"
+                app:layout_constraintTop_toBottomOf="@id/nama_profil"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Set Profile Pict"
+                android:id="@+id/btn_set_image"
+                app:layout_constraintEnd_toEndOf="@+id/email_profil"
+                app:layout_constraintStart_toStartOf="@+id/email_profil"
+                app:layout_constraintTop_toBottomOf="@+id/email_profil"
+                tools:ignore="HardcodedText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

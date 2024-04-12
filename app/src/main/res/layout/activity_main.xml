@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        tools:ignore="HardcodedText"
+        android:layout_height="match_parent"
+        tools:context=".activity.HomeActivity">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                style="@style/barStyle"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    app:title="Home"
+                    app:menu="@menu/top_app_bar" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <!-- Note: A RecyclerView can also be used -->
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <!-- Scrollable content -->
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tempat_fragment"
+                    app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_navigation"
+            style="@style/barStyle"
+            app:menu="@menu/bottom_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/card_filter"
+            android:elevation="8dp"
+            android:padding="24dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true"
+            android:checkable="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/completed"
+                        android:text="Completed"/>
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:id="@+id/notCompleted"
+                        android:layout_height="wrap_content"
+                        android:text="Not Completed"/>
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:id="@+id/isMe"
+                        android:layout_height="wrap_content"
+                        android:text="Is Me"/>
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:id="@+id/lost"
+                        android:layout_height="wrap_content"
+                        android:text="Lost"/>
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:id="@+id/found"
+                        android:layout_height="wrap_content"
+                        android:text="Found"/>
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:id="@+id/marked"
+                        android:layout_height="wrap_content"
+                        android:text="Marked"/>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
