@@ -17,6 +17,9 @@
         android:theme="@style/Theme.GLostAndFound"
         tools:targetApi="31">
         <activity
+            android:name=".activity.SavedActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SetProfilePictActivity"
             android:exported="false" />
         <activity

@@ -139,7 +139,20 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+        binding.marked.setOnClickListener {
+            if (binding.marked.isChecked) {
+                bundle.putBoolean("marked", true)
+                binding.completed.isChecked = false
+                binding.notCompleted.isChecked = false
+                binding.isMe.isChecked = false
+                binding.lost.isChecked = false
+                binding.found.isChecked = false
+            }
 
+            else {
+                bundle.putBoolean("marked", false)
+            }
+        }
     }
 
     fun loadFragment(fragment: Fragment, bundle: Bundle) {

@@ -1,5 +1,6 @@
 package com.ifs21010.glostandfound.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -15,6 +17,7 @@ import com.ifs21010.glostandfound.MyAdapter
 import com.ifs21010.glostandfound.R
 import com.ifs21010.glostandfound.RetrofitObject
 import com.ifs21010.glostandfound.data.Api
+import com.ifs21010.glostandfound.data.LostfoundViewModel
 import com.ifs21010.glostandfound.models.GetAllLostAndFoundsResponse
 import com.ifs21010.glostandfound.models.GetCurrentUserResponse
 import com.ifs21010.glostandfound.models.User
@@ -66,19 +69,39 @@ class HomeFragment : Fragment() {
         val isMe = arguments?.getInt("isMe")
         val status = arguments?.getString("status")
         val call = apiService.getLostFounds(authToken, isCompleted, isMe, status)
+        val marked = arguments?.getBoolean("marked")
 
         call.enqueue(object : Callback<GetAllLostAndFoundsResponse> {
+            @SuppressLint("FragmentLiveDataObserve")
             override fun onResponse(
                 p0: Call<GetAllLostAndFoundsResponse>,
                 p1: Response<GetAllLostAndFoundsResponse>
             ) {
                 try {
+                    val arrayTemp = p1.body()?.data!!.lostFounds
+                    val listSaved = ViewModelProvider(this@HomeFragment)[LostfoundViewModel::class.java]
+
+                    if (marked!!) {
+                        listSaved.allLostFoundId.observe(this@HomeFragment) { item ->
+                            val iterator = arrayTemp.iterator()
+                            while (iterator.hasNext()) {
+                                val e = iterator.next()
+                                if (!item.contains(e.id)) {
+                                    iterator.remove()
+                                }
+                            }
+                        }
+                    }
+
                     val customAdapter = MyAdapter(
-                        p1.body()?.data!!.lostFounds,
+                        arrayTemp,
                         context,
                         apiService,
                         authToken,
-                        currentUser.name
+                        currentUser.name,
+                        this@HomeFragment,
+                        this@HomeFragment,
+                        listSaved
                     )
 
                     recyclerView.layoutManager = LinearLayoutManager(

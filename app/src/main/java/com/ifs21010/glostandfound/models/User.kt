@@ -1,11 +1,16 @@
 package com.ifs21010.glostandfound.models
 
+import com.google.gson.annotations.SerializedName
+
 data class User(
-    val created_at: String,
+    @SerializedName("created_at")
+    val createdAt: String,
     val email: String,
-    val email_verified_at: Any,
+    @SerializedName("email_verified_at")
+    val emailVerifiedAt: Any,
     val id: Int,
     val name: String,
     val photo: String,
-    val updated_at: String
+    @SerializedName("updated_at")
+    val updatedAt: String
 )

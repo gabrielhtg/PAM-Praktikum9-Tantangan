@@ -2,7 +2,7 @@ package com.ifs21010.glostandfound
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import android.database.sqlite.SQLiteConstraintException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ifs21010.glostandfound.activity.DetailActivity
 import com.ifs21010.glostandfound.activity.UpdateActivity
 import com.ifs21010.glostandfound.data.Api
+import com.ifs21010.glostandfound.data.LostfoundViewModel
 import com.ifs21010.glostandfound.models.DeleteResponse
 import com.ifs21010.glostandfound.models.LostFound
 import retrofit2.Call
@@ -22,12 +25,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MyAdapter(
-    val dataset: ArrayList<LostFound>,
-    val context: Context?,
-    val apiService: Api,
-    val authToken: String,
-    val currentUserName: String
+    private val dataset: ArrayList<LostFound>,
+    private val context: Context?,
+    private val apiService: Api,
+    private val authToken: String,
+    private val currentUserName: String,
+    private val viewModelStoreOwner : ViewModelStoreOwner,
+    private val lifecycleOwner : LifecycleOwner,
+    private val listSaved : LostfoundViewModel
 ) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val gambarItem: ImageView
         val judulItem: TextView
@@ -59,7 +66,6 @@ class MyAdapter(
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.lost_found_item, viewGroup, false)
 
-
         return ViewHolder(view)
     }
 
@@ -72,9 +78,43 @@ class MyAdapter(
                 .load(dataset[(dataset.size - 1) - position].cover).into(viewHolder.gambarItem)
         }
 
+        listSaved.allLostFoundId.observe(lifecycleOwner) { item ->
+            try {
+                if (item.contains(dataset[(dataset.size - 1) - position].id)) {
+                    viewHolder.tombolAddMark.visibility = View.GONE
+                }
+            } catch (e : ArrayIndexOutOfBoundsException) {
+                // do nothin
+            }
+
+        }
+
         viewHolder.judulItem.text = dataset[(dataset.size - 1) - position].title
         viewHolder.keterangan1.text = dataset[(dataset.size - 1) - position].description
         viewHolder.namaUploader.text = dataset[(dataset.size - 1) - position].author.name
+
+        viewHolder.tombolAddMark.setOnClickListener {
+            val data = com.ifs21010.glostandfound.entity.LostFound(0,  dataset[(dataset.size - 1) - position].id)
+
+            try {
+                listSaved.addMarked(data)
+                viewHolder.tombolAddMark.visibility = View.GONE
+                Toast.makeText(context, "Berhasil menandai!", Toast.LENGTH_SHORT).show()
+            } catch (e : SQLiteConstraintException) {
+                Toast.makeText(context, "Gagal Menandai!. Duplikat!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        viewHolder.tombolRemoveMark.setOnClickListener {
+            viewHolder.tombolAddMark.post {
+                listSaved.removeMark(dataset[(dataset.size - 1) - position].id)
+                viewHolder.tombolAddMark.visibility = View.VISIBLE
+                viewHolder.tombolRemoveMark.visibility = View.GONE
+                Toast.makeText(context, "Berhasil menghapus tanda!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         viewHolder.tombolDetail.setOnClickListener {
             context?.startActivity(
                 Intent(context, DetailActivity::class.java).putExtra(
@@ -93,9 +133,6 @@ class MyAdapter(
                     authToken,
                     "${dataset[(dataset.size - 1) - position].id}"
                 )
-
-                Log.i("my_tag", dataset[(dataset.size - 1) - position].id.toString())
-
                 call.enqueue(object : Callback<DeleteResponse> {
                     override fun onResponse(
                         p0: Call<DeleteResponse>,
