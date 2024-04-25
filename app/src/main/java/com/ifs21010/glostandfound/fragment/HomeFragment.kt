@@ -68,7 +68,9 @@ class HomeFragment : Fragment() {
         val isCompleted = arguments?.getInt("isCompleted")
         val isMe = arguments?.getInt("isMe")
         val status = arguments?.getString("status")
+
         val call = apiService.getLostFounds(authToken, isCompleted, isMe, status)
+
         val marked = arguments?.getBoolean("marked")
 
         call.enqueue(object : Callback<GetAllLostAndFoundsResponse> {
@@ -99,7 +101,6 @@ class HomeFragment : Fragment() {
                         apiService,
                         authToken,
                         currentUser.name,
-                        this@HomeFragment,
                         this@HomeFragment,
                         listSaved
                     )

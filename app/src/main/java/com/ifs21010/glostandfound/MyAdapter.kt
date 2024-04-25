@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ifs21010.glostandfound.activity.DetailActivity
@@ -30,7 +29,6 @@ class MyAdapter(
     private val apiService: Api,
     private val authToken: String,
     private val currentUserName: String,
-    private val viewModelStoreOwner : ViewModelStoreOwner,
     private val lifecycleOwner : LifecycleOwner,
     private val listSaved : LostfoundViewModel
 ) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
@@ -78,16 +76,19 @@ class MyAdapter(
                 .load(dataset[(dataset.size - 1) - position].cover).into(viewHolder.gambarItem)
         }
 
-        listSaved.allLostFoundId.observe(lifecycleOwner) { item ->
-            try {
-                if (item.contains(dataset[(dataset.size - 1) - position].id)) {
-                    viewHolder.tombolAddMark.visibility = View.GONE
+            listSaved.allLostFoundId.observe(lifecycleOwner) { item ->
+                try {
+
+                    if (item.contains(dataset[(dataset.size - 1) - position].id)) {
+                        viewHolder.tombolAddMark.visibility = View.GONE
+                    }
+                } catch (e : ArrayIndexOutOfBoundsException) {
+                    // do nothin
+                } catch (e : IndexOutOfBoundsException) {
+                    // do nothin
                 }
-            } catch (e : ArrayIndexOutOfBoundsException) {
-                // do nothin
             }
 
-        }
 
         viewHolder.judulItem.text = dataset[(dataset.size - 1) - position].title
         viewHolder.keterangan1.text = dataset[(dataset.size - 1) - position].description

@@ -65,14 +65,14 @@ class RegisterActivity : AppCompatActivity() {
                         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Login Gagal", Toast.LENGTH_LONG)
+                        Toast.makeText(this@RegisterActivity, "Register Gagal", Toast.LENGTH_LONG)
                             .show()
                         binding.loadingAnimation.hide()
                     }
                 }
 
                 override fun onFailure(p0: Call<RegisterResponse>, p1: Throwable) {
-                    Toast.makeText(this@RegisterActivity, "Login Gagal", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@RegisterActivity, "Register Gagal", Toast.LENGTH_LONG).show()
                     binding.loadingAnimation.hide()
                 }
             });
